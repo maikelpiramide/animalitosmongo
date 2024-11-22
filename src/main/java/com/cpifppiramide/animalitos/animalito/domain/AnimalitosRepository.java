@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface AnimalitosRepository {
 
-    public Animalito save(Animalito animalito);
     public List<Animalito> getAll();
-
+    public Animalito get(Integer id);
 }

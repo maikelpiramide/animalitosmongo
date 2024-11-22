@@ -13,9 +13,6 @@ public class AnimalitosUseCases {
         this.animalitosRepository = animalitosRepository;
     }
 
-    public Animalito save(Animalito animalito){
-        return this.animalitosRepository.save(animalito);
-    }
     public List<Animalito> getAll(){
         return this.animalitosRepository.getAll();
     }
