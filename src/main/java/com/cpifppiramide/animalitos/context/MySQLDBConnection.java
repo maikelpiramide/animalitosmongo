@@ -14,7 +14,7 @@ public class MySQLDBConnection {
     public static Connection getInstance() {
         if(connection == null) {
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animalitos", "root", "root");
+                connection = DriverManager.getConnection("jdbc:mysql://nextlio.cdewku4giwiy.us-east-1.rds.amazonaws.com:3306/animalitos", "admin", "Code0crew$$");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
