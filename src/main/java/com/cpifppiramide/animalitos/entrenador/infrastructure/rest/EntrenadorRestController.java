@@ -30,4 +30,5 @@ public class EntrenadorRestController {
     public Entrenador captura(@PathVariable String id, @RequestBody Animalito animalito){
         return this.entrenadorUseCases.captura(id, animalito);
     }
+
 }

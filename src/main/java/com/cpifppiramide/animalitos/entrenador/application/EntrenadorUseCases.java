@@ -4,6 +4,7 @@ import com.cpifppiramide.animalitos.animalito.domain.Animalito;
 import com.cpifppiramide.animalitos.animalito.domain.AnimalitosRepository;
 import com.cpifppiramide.animalitos.entrenador.domain.Entrenador;
 import com.cpifppiramide.animalitos.entrenador.domain.EntrenadorRepository;
+import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +25,21 @@ public class EntrenadorUseCases {
     }
 
     public Entrenador get(String id){
+        //cogemos el entrenador de mongorepository por su id
         Entrenador entrenador = this.entrenadorRepository.get(id);
-        List<Animalito> animalitosCompletos = new ArrayList<>();
+        //obtenemos sus animalitos, como de los animales me hace falta el tipo, (atributo de la tabla intermedia), obtenemos el animal por el id desde mongo y le seteamos el nivel al entrenador
         for(Animalito animalito : entrenador.getAnimalitos()){
-            animalito = this.animalitosRepository.get(animalito.getId());
-            animalitosCompletos.add(animalito);
+            //OBTENEMOS ANIMALITO DE MYSQL POR SU ID
+            Animalito animalitoCompleto = this.animalitosRepository.get(animalito.getId());
+            //seteamos el entrenador obteneido de mongo los atributos que necesitemos
+            animalito.setTipo(animalitoCompleto.getTipo());
         }
-        entrenador.reemplaza(animalitosCompletos);
         return entrenador;
     }
 
     public Entrenador captura(String id, Animalito animalito){
         //añado el animalito
+
         this.entrenadorRepository.captura(id, animalito);
         return this.get(id);
     }

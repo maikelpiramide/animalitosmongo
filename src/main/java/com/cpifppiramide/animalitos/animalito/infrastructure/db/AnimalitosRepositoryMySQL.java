@@ -18,7 +18,7 @@ public class AnimalitosRepositoryMySQL implements AnimalitosRepository {
         try {
             ResultSet rs = MySQLDBConnection.getInstance().prepareStatement("select * from animales").executeQuery();
             while (rs.next()){
-                Animalito animalito = new Animalito(rs.getInt("id"),rs.getString("nombre"),rs.getString("tipo"));
+                Animalito animalito = new Animalito(rs.getInt("id"),rs.getString("nombre"),rs.getString("tipo"),null);
                 animalitos.add(animalito);
             }
         } catch (SQLException e) {
@@ -33,7 +33,7 @@ public class AnimalitosRepositoryMySQL implements AnimalitosRepository {
         try {
             ResultSet rs = MySQLDBConnection.getInstance().prepareStatement("select * from animales where id = "+id).executeQuery();
             rs.next();
-            animalito = new Animalito(rs.getInt("id"), rs.getString("nombre"),rs.getString("tipo"));
+            animalito = new Animalito(rs.getInt("id"), rs.getString("nombre"),rs.getString("tipo"),null);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

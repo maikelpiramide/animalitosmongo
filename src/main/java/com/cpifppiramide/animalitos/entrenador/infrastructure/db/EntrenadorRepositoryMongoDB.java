@@ -26,23 +26,33 @@ public class EntrenadorRepositoryMongoDB implements EntrenadorRepository {
         return  ((BsonObjectId)insertOneResult.getInsertedId()).getValue().toHexString();
     }
 
+    //devolvemos el entrenador con sus animalitos
     @Override
     public Entrenador get(String id) {
         MongoCollection<Document> collection = MongoDBConnection.getDatabase().getCollection("entrenadores");
+
         Document document = collection.find(eq("_id", new ObjectId(id))).first();
+
+        List<Document> animalitosDocuments = (ArrayList<Document>)document.get("animalitos");
+
         List<Animalito> animalitos = new ArrayList<>();
-        if(document.containsKey("animalitos")) {
-            List<Integer> animalitosInteger = (ArrayList<Integer>) document.get("animalitos");
-                for (Integer i : animalitosInteger) {
-                    animalitos.add(new Animalito(i, null, null));}
+
+        for ( Document d : animalitosDocuments) {
+            animalitos.add(new Animalito(d.getInteger("id"), d.getString("nombre"), d.getString("tipo"),d.getInteger("nivel")));
         }
+
         return new Entrenador(document.getObjectId("_id").toHexString(), document.getString("nombre"), animalitos);
     }
 
     @Override
     public void captura(String id, Animalito animalito) {
+        Document animalitoDocument = new Document();
+        animalitoDocument.append("id",animalito.getId());
+        animalitoDocument.append("nombre",animalito.getNombre());
+        animalitoDocument.append("nivel",animalito.getNivel());
+
         MongoCollection<Document> collection = MongoDBConnection.getDatabase().getCollection("entrenadores");
-        Bson update = Updates.push("animalitos", animalito.getId());
+        Bson update = Updates.push("animalitos",animalitoDocument );
         collection.findOneAndUpdate(eq("_id", new ObjectId(id)),update);
     }
 

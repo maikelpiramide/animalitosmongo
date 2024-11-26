@@ -4,7 +4,7 @@ public class Animalito {
 
     private final Integer id;
     private final String nombre;
-    private final String tipo;
+    private String tipo;
     private Integer nivel;
 
     public Animalito(Integer id, String nombre, String tipo,Integer nivel) {
@@ -28,6 +28,11 @@ public class Animalito {
 
     public Integer getNivel() {
         return nivel;
+    }
+
+    public Animalito setTipo(String tipo) {
+        this.tipo = tipo;
+        return this;
     }
 
     @Override
