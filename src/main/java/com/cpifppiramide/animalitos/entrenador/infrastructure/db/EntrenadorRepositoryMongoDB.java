@@ -30,10 +30,11 @@ public class EntrenadorRepositoryMongoDB implements EntrenadorRepository {
     public Entrenador get(String id) {
         MongoCollection<Document> collection = MongoDBConnection.getDatabase().getCollection("entrenadores");
         Document document = collection.find(eq("_id", new ObjectId(id))).first();
-        List<Integer> animalitosInteger = (ArrayList<Integer>)document.get("animalitos");
         List<Animalito> animalitos = new ArrayList<>();
-        for(Integer i : animalitosInteger){
-            animalitos.add(new Animalito(i, null,null));
+        if(document.containsKey("animalitos")) {
+            List<Integer> animalitosInteger = (ArrayList<Integer>) document.get("animalitos");
+                for (Integer i : animalitosInteger) {
+                    animalitos.add(new Animalito(i, null, null));}
         }
         return new Entrenador(document.getObjectId("_id").toHexString(), document.getString("nombre"), animalitos);
     }
